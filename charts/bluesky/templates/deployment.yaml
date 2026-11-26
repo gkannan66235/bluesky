@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bluesky
+  labels:
+    {{- include "bluesky.labels" . | nindent 4 }}
+  annotations:
+    {{- include "bluesky.provenance" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: bluesky
+  template:
+    metadata:
+      labels:
+        {{- include "bluesky.labels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: bluesky
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: APP_MESSAGE
+              value: {{ .Values.app.message | quote }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.targetPort }}
+          readinessProbe:
+            httpGet: { path: /healthz, port: http }
+            periodSeconds: 5
+          livenessProbe:
+            httpGet: { path: /healthz, port: http }
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            capabilities: { drop: ["ALL"] }
+            seccompProfile: { type: RuntimeDefault }

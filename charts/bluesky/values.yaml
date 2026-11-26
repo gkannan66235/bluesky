@@ -1,0 +1,25 @@
+# The kagent gitops-agent edits THIS file (path from the aispace.io/source-path annotation)
+# when it reconciles a live fix back to git as a pull request.
+replicaCount: 2
+
+image:
+  repository: crazstarter.azurecr.io/bluesky
+  tag: "0.1.0"
+  pullPolicy: IfNotPresent
+
+app:
+  message: "Hello from bluesky"
+
+service:
+  port: 80
+  targetPort: 8080
+
+resources:
+  requests: { cpu: 25m, memory: 32Mi }
+  limits:   { cpu: 200m, memory: 128Mi }
+
+# Provenance: lets kagent map a live object back to this repo/file.
+provenance:
+  repo: https://github.com/gkannan66235/bluesky
+  branch: main
+  path: charts/bluesky/values.yaml

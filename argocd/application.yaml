@@ -1,0 +1,22 @@
+# Argo CD Application: syncs charts/bluesky from git into namespace bluesky (GitOps).
+# Requires Argo CD (modules/argo-cd in the Infra-Catalyst starter kit).  kubectl apply -f argocd/application.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: bluesky
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/gkannan66235/bluesky
+    targetRevision: main
+    path: charts/bluesky
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: bluesky
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: false   # keep false: lets the demo "fix live first, then reconcile via PR"
+    syncOptions:
+      - CreateNamespace=true
