@@ -16,7 +16,7 @@ service:
 
 resources:
   requests: { cpu: 25m, memory: 32Mi }
-  limits:   { cpu: 200m, memory: 128Mi }
+  limits:   { cpu: 200m, memory: 256Mi }
 
 # Provenance: lets kagent map a live object back to this repo/file.
 provenance:
