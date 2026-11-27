@@ -1,6 +1,6 @@
-# Build + push (AKS nodes are linux/amd64):
+# Build + push (AKS nodes are linux/arm64):
 #   az acr login -n crazstarter
-#   docker build --platform linux/amd64 -t crazstarter.azurecr.io/bluesky:0.1.0 .
+#   docker build --platform linux/arm64 -t crazstarter.azurecr.io/bluesky:0.1.0 .
 #   docker push crazstarter.azurecr.io/bluesky:0.1.0
 FROM python:3.12-slim
 WORKDIR /app

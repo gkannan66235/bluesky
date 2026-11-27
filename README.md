@@ -15,7 +15,7 @@ argocd/application.yaml  Argo CD Application (namespace bluesky)
 
 ```bash
 az acr login -n crazstarter
-docker build --platform linux/amd64 -t crazstarter.azurecr.io/bluesky:0.1.0 . && docker push crazstarter.azurecr.io/bluesky:0.1.0
+docker build --platform linux/arm64 -t crazstarter.azurecr.io/bluesky:0.1.0 . && docker push crazstarter.azurecr.io/bluesky:0.1.0
 
 kubectl apply -f argocd/application.yaml          # GitOps via Argo CD
 # or without Argo CD:
